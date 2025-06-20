@@ -1,0 +1,6 @@
+module plagiarism.detector
+typeinfo plagiarism-detector.qmltypes
+prefer :/qt/qml/plagiarism/detector/
+Main 1.0 Main.qml
+FileCard 1.0 FileCard.qml
+

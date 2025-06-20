@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="/qt/qml/plagarism/">
+    <file alias="Main.qml">D:/plagarism/Main.qml</file>
+    <file alias="FileCard.qml">D:/plagarism/FileCard.qml</file>
+    <file alias="icons/add_file.png">D:/plagarism/icons/add_file.png</file>
+    <file alias="icons/compare.svg">D:/plagarism/icons/compare.svg</file>
+    <file alias="icons/history.png">D:/plagarism/icons/history.png</file>
+    <file alias="icons/menu.svg">D:/plagarism/icons/menu.svg</file>
+    <file alias="icons/settings.svg">D:/plagarism/icons/settings.svg</file>
+    <file alias="icons/theme.svg">D:/plagarism/icons/theme.svg</file>
+  </qresource>
+</RCC>
+

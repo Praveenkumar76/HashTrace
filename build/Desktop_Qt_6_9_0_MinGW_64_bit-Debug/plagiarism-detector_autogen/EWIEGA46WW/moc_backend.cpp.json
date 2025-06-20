@@ -1,0 +1,96 @@
+{
+    "classes": [
+        {
+            "className": "Backend",
+            "lineNumber": 12,
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "isProcessing",
+                    "notify": "processingChanged",
+                    "read": "isProcessing",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "Backend",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "similarityScore",
+                            "type": "double"
+                        },
+                        {
+                            "name": "matches",
+                            "type": "QVariantList"
+                        }
+                    ],
+                    "index": 0,
+                    "name": "comparisonFinished",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "processing",
+                            "type": "bool"
+                        }
+                    ],
+                    "index": 1,
+                    "name": "processingChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "message",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 2,
+                    "name": "errorOccurred",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "filePaths",
+                            "type": "QStringList"
+                        }
+                    ],
+                    "index": 3,
+                    "name": "processFiles",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 4,
+                    "name": "cancelProcessing",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "backend.h",
+    "outputRevision": 69
+}

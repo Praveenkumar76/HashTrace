@@ -1,0 +1,6 @@
+module plagarism
+typeinfo appplagarism.qmltypes
+prefer :/qt/qml/plagarism/
+Main 1.0 Main.qml
+FileCard 1.0 FileCard.qml
+

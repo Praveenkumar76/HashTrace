@@ -1,0 +1,6 @@
+--resource
+D:/plagarism/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/.qt/rcc/qmake_plagiarism_detector.qrc
+--resource
+D:/plagarism/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/.qt/rcc/plagiarism-detector_raw_qml_0.qrc
+/qt/qml/plagiarism/detector/Main.qml
+/qt/qml/plagiarism/detector/FileCard.qml
