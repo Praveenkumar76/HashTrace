@@ -1,7 +1,7 @@
-// FileCard.qml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
 
 Rectangle {
     property string filePath: ""
@@ -12,8 +12,8 @@ Rectangle {
     width: 300
     height: 200
     radius: 8
-    border.color: "blue"
-    border.width: 1
+    border.color: fileContent ? "green" : "red"
+    border.width: 2
     color: "white"
 
     ColumnLayout {
@@ -47,25 +47,22 @@ Rectangle {
         }
     }
 
-    BusyIndicator {
-        running: parent.isLoading
-        anchors.centerIn: parent
-    }
-
-    Platform.FileDialog {
+    FileDialog {
         id: internalFileDialog
-        fileMode: Platform.FileDialog.OpenFile
+        fileMode: FileDialog.OpenFile
         onAccepted: {
-            filePath = internalFileDialog.file
+            filePath = internalFileDialog.currentFile
             loadFileContent()
         }
     }
 
     function loadFileContent() {
         if (filePath) {
+            isLoading = true;
             var xhr = new XMLHttpRequest();
             xhr.open("GET", filePath);
             xhr.onreadystatechange = function() {
+                isLoading = false;
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
                         fileContent = xhr.responseText;
@@ -81,5 +78,10 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onClicked: internalFileDialog.open()
+    }
+
+    BusyIndicator {
+        running: parent.isLoading
+        anchors.centerIn: parent
     }
 }

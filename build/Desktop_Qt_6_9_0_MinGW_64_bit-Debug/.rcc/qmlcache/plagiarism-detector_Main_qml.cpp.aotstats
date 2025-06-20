@@ -6,7 +6,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 24,
-                        "durationMicroseconds": 743,
+                        "durationMicroseconds": 668,
                         "errorMessage": "",
                         "functionName": "onDarkModeChanged",
                         "line": 21
@@ -14,7 +14,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 21,
-                        "durationMicroseconds": 91,
+                        "durationMicroseconds": 93,
                         "errorMessage": "Cannot access value for name darkMode",
                         "functionName": "colorGroup",
                         "line": 17
@@ -62,7 +62,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 18,
-                        "durationMicroseconds": 158,
+                        "durationMicroseconds": 152,
                         "errorMessage": "",
                         "functionName": "buttons",
                         "line": 46
@@ -70,7 +70,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 16,
-                        "durationMicroseconds": 119,
+                        "durationMicroseconds": 153,
                         "errorMessage": "",
                         "functionName": "width",
                         "line": 52
@@ -78,7 +78,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 16,
-                        "durationMicroseconds": 134,
+                        "durationMicroseconds": 156,
                         "errorMessage": "",
                         "functionName": "color",
                         "line": 54
@@ -86,7 +86,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 27,
-                        "durationMicroseconds": 97,
+                        "durationMicroseconds": 99,
                         "errorMessage": "",
                         "functionName": "fill",
                         "line": 58
@@ -142,7 +142,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 20,
-                        "durationMicroseconds": 120,
+                        "durationMicroseconds": 122,
                         "errorMessage": "",
                         "functionName": "width",
                         "line": 88
@@ -222,7 +222,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 35,
-                        "durationMicroseconds": 114,
+                        "durationMicroseconds": 129,
                         "errorMessage": "",
                         "functionName": "alignment",
                         "line": 165
@@ -230,7 +230,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 35,
-                        "durationMicroseconds": 121,
+                        "durationMicroseconds": 193,
                         "errorMessage": "",
                         "functionName": "alignment",
                         "line": 172
@@ -238,7 +238,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 35,
-                        "durationMicroseconds": 123,
+                        "durationMicroseconds": 150,
                         "errorMessage": "",
                         "functionName": "alignment",
                         "line": 178
@@ -254,7 +254,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 28,
-                        "durationMicroseconds": 100,
+                        "durationMicroseconds": 119,
                         "errorMessage": "",
                         "functionName": "width",
                         "line": 188
@@ -270,7 +270,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 24,
-                        "durationMicroseconds": 120,
+                        "durationMicroseconds": 161,
                         "errorMessage": "",
                         "functionName": "width",
                         "line": 213
@@ -278,7 +278,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 39,
-                        "durationMicroseconds": 99,
+                        "durationMicroseconds": 138,
                         "errorMessage": "",
                         "functionName": "alignment",
                         "line": 217
@@ -302,7 +302,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 19,
-                        "durationMicroseconds": 95,
+                        "durationMicroseconds": 106,
                         "errorMessage": "",
                         "functionName": "fileMode",
                         "line": 232
@@ -310,7 +310,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 22,
-                        "durationMicroseconds": 209,
+                        "durationMicroseconds": 250,
                         "errorMessage": "",
                         "functionName": "nameFilters",
                         "line": 233
@@ -318,7 +318,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 21,
-                        "durationMicroseconds": 262,
+                        "durationMicroseconds": 364,
                         "errorMessage": "Cannot retrieve a non-object type by ID: stackView",
                         "functionName": "onAccepted",
                         "line": 234
@@ -326,7 +326,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 20,
-                        "durationMicroseconds": 530,
+                        "durationMicroseconds": 466,
                         "errorMessage": "",
                         "functionName": "width",
                         "line": 250
@@ -334,7 +334,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 20,
-                        "durationMicroseconds": 383,
+                        "durationMicroseconds": 396,
                         "errorMessage": "Cannot access value for name index",
                         "functionName": "color",
                         "line": 253
@@ -342,7 +342,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 31,
-                        "durationMicroseconds": 106,
+                        "durationMicroseconds": 110,
                         "errorMessage": "",
                         "functionName": "fill",
                         "line": 256
@@ -366,7 +366,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 44,
-                        "durationMicroseconds": 62,
+                        "durationMicroseconds": 53,
                         "errorMessage": "Cannot access value for name parent",
                         "functionName": "preferredWidth",
                         "line": 263
@@ -382,7 +382,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 44,
-                        "durationMicroseconds": 48,
+                        "durationMicroseconds": 66,
                         "errorMessage": "Cannot access value for name parent",
                         "functionName": "preferredWidth",
                         "line": 269
@@ -406,7 +406,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 44,
-                        "durationMicroseconds": 45,
+                        "durationMicroseconds": 39,
                         "errorMessage": "Cannot access value for name parent",
                         "functionName": "preferredWidth",
                         "line": 275
