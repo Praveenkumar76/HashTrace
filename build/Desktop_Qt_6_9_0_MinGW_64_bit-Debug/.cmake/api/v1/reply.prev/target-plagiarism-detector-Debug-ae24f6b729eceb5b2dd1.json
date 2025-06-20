@@ -79,7 +79,7 @@
 			{
 				"command" : 3,
 				"file" : 1,
-				"line" : 28,
+				"line" : 31,
 				"parent" : 0
 			},
 			{
@@ -103,7 +103,7 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 47,
+				"line" : 50,
 				"parent" : 0
 			},
 			{
@@ -193,7 +193,7 @@
 			{
 				"command" : 11,
 				"file" : 1,
-				"line" : 32,
+				"line" : 35,
 				"parent" : 0
 			},
 			{
@@ -816,8 +816,8 @@
 				0,
 				1,
 				2,
+				3,
 				4,
-				6,
 				10,
 				12,
 				13,
@@ -1030,10 +1030,6 @@
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 0,
-			"id" : "plagiarism-detector_autogen::@6890427a1f51a3e7e1df"
-		},
-		{
 			"backtrace" : 64,
 			"id" : "plagiarism-detector_copy_res::@6890427a1f51a3e7e1df"
 		},
@@ -1042,11 +1038,15 @@
 			"id" : "plagiarism-detector_copy_qml::@6890427a1f51a3e7e1df"
 		},
 		{
-			"backtrace" : 73,
-			"id" : "plagiarism-detector_qmlimportscan::@6890427a1f51a3e7e1df"
+			"backtrace" : 0,
+			"id" : "plagiarism-detector_autogen::@6890427a1f51a3e7e1df"
 		},
 		{
 			"id" : "plagiarism-detector_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 73,
+			"id" : "plagiarism-detector_qmlimportscan::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "plagiarism-detector::@6890427a1f51a3e7e1df",
@@ -1207,8 +1207,8 @@
 			[
 				1,
 				2,
+				3,
 				4,
-				6,
 				9,
 				10,
 				12,
@@ -1221,8 +1221,8 @@
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				3,
 				5,
+				6,
 				7
 			]
 		},
@@ -1289,25 +1289,25 @@
 		},
 		{
 			"backtrace" : 4,
-			"path" : "backend.h",
-			"sourceGroupIndex" : 2
-		},
-		{
-			"backtrace" : 4,
 			"compileGroupIndex" : 0,
 			"path" : "Preprocessor.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
-			"path" : "Preprocessor.h",
+			"compileGroupIndex" : 0,
+			"path" : "Rabin_karp.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "backend.h",
 			"sourceGroupIndex" : 2
 		},
 		{
 			"backtrace" : 4,
-			"compileGroupIndex" : 0,
-			"path" : "Rabin_karp.cpp",
-			"sourceGroupIndex" : 1
+			"path" : "Preprocessor.h",
+			"sourceGroupIndex" : 2
 		},
 		{
 			"backtrace" : 4,

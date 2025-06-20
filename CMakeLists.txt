@@ -14,14 +14,17 @@ find_package(Qt6 REQUIRED COMPONENTS Quick Concurrent)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
+# And make sure all headers are listed
+
+
 # List all source files
 set(SOURCE_FILES
     main.cpp
     backend.cpp
-    backend.h
     Preprocessor.cpp
-    Preprocessor.h
     Rabin_karp.cpp
+    backend.h
+    Preprocessor.h
     Rabin_karp.h
 )
 

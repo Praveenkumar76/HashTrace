@@ -1,10 +1,10 @@
-// backend.cpp
 #include "backend.h"
 #include "Rabin_karp.h"
 #include "Preprocessor.h"
 #include <QFile>
 #include <QTextStream>
 #include <QtConcurrent/QtConcurrentRun>
+#include <QDebug>
 
 Backend::Backend(QObject *parent) : QObject(parent)
 {
@@ -13,7 +13,10 @@ Backend::Backend(QObject *parent) : QObject(parent)
     });
 }
 
-bool Backend::isProcessing() const { return m_isProcessing; }
+bool Backend::isProcessing() const
+{
+    return m_isProcessing;
+}
 
 void Backend::setProcessing(bool processing)
 {
@@ -26,13 +29,13 @@ void Backend::setProcessing(bool processing)
 void Backend::processFiles(const QStringList &filePaths)
 {
     if (filePaths.size() < 2) {
-        emit errorOccurred("Please select at least two files");
+        emit errorOccurred(tr("Please select at least two files"));
         return;
     }
 
     for (const auto &path : filePaths) {
         if (!QFile::exists(path)) {
-            emit errorOccurred("File does not exist: " + path);
+            emit errorOccurred(tr("File does not exist: %1").arg(path));
             return;
         }
     }
@@ -46,13 +49,20 @@ void Backend::processFiles(const QStringList &filePaths)
                 FileContent fc;
                 fc.path = path;
                 fc.content = loadAndPreprocess(path);
+                if (fc.content.isEmpty()) {
+                    emit errorOccurred(tr("Failed to process file: %1").arg(path));
+                    return;
+                }
                 m_loadedFiles.append(fc);
             }
             compareAllFiles();
         } catch (const std::exception &e) {
-            emit errorOccurred(QString("Processing error: %1").arg(e.what()));
+            emit errorOccurred(tr("Processing error: %1").arg(e.what()));
+        } catch (...) {
+            emit errorOccurred(tr("Unknown processing error occurred"));
         }
     });
+
     m_watcher.setFuture(future);
 }
 
@@ -60,23 +70,37 @@ QString Backend::loadAndPreprocess(const QString &filePath)
 {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        throw std::runtime_error("Could not open file: " + filePath.toStdString());
+        qWarning() << "Could not open file:" << filePath;
+        return "";
     }
 
     QTextStream in(&file);
     QString content = in.readAll();
     file.close();
 
-    // Preprocess the content
-    Preprocessor preprocessor;
-    std::string stdContent = content.toStdString();
-    std::string processed = preprocessor.preprocess(stdContent);
+    if (content.isEmpty()) {
+        qWarning() << "Empty file:" << filePath;
+        return "";
+    }
 
-    return QString::fromStdString(processed);
+    try {
+        Preprocessor preprocessor;
+        std::string stdContent = content.toStdString();
+        std::string processed = preprocessor.preprocess(stdContent);
+        return QString::fromStdString(processed);
+    } catch (const std::exception &e) {
+        qWarning() << "Preprocessing error:" << e.what();
+        return "";
+    }
 }
 
 void Backend::compareAllFiles()
 {
+    if (m_loadedFiles.size() < 2) {
+        emit errorOccurred(tr("Not enough files loaded for comparison"));
+        return;
+    }
+
     RabinKarp rk;
     QVariantList matches;
     double totalScore = 0;
@@ -88,25 +112,38 @@ void Backend::compareAllFiles()
             const auto &file1 = m_loadedFiles[i];
             const auto &file2 = m_loadedFiles[j];
 
-            double similarity = rk.computeSimilarity(
-                file1.content.toStdString(),
-                file2.content.toStdString(),
-                5 // k-gram size
-                );
+            if (file1.content.isEmpty() || file2.content.isEmpty()) {
+                qWarning() << "Skipping comparison due to empty content";
+                continue;
+            }
 
-            totalScore += similarity;
-            comparisons++;
+            try {
+                double similarity = rk.computeSimilarity(
+                    file1.content.toStdString(),
+                    file2.content.toStdString(),
+                    5 // k-gram size
+                    );
 
-            QVariantMap match;
-            match["file1"] = file1.path;
-            match["file2"] = file2.path;
-            match["score"] = similarity * 100;
-            matches.append(match);
+                totalScore += similarity;
+                comparisons++;
+
+                QVariantMap match;
+                match["file1"] = file1.path;
+                match["file2"] = file2.path;
+                match["score"] = similarity * 100;
+                matches.append(match);
+            } catch (const std::exception &e) {
+                qWarning() << "Comparison error:" << e.what();
+            }
         }
     }
 
-    double averageScore = comparisons > 0 ? totalScore / comparisons : 0;
-    emit comparisonFinished(averageScore * 100, matches);
+    if (comparisons == 0) {
+        emit errorOccurred(tr("No valid comparisons could be made"));
+    } else {
+        double averageScore = totalScore / comparisons;
+        emit comparisonFinished(averageScore * 100, matches);
+    }
 }
 
 void Backend::cancelProcessing()
@@ -114,5 +151,6 @@ void Backend::cancelProcessing()
     if (m_watcher.isRunning()) {
         m_watcher.cancel();
         setProcessing(false);
+        emit errorOccurred(tr("Processing cancelled by user"));
     }
 }

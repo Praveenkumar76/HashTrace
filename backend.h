@@ -1,4 +1,3 @@
-// backend.h
 #ifndef BACKEND_H
 #define BACKEND_H
 
@@ -6,7 +5,7 @@
 #include <QStringList>
 #include <QVector>
 #include <QFutureWatcher>
-#include <QVariant>  // Add this
+#include <QVariant>
 #include <QVariantList>
 
 class Backend : public QObject
@@ -18,6 +17,10 @@ public:
     explicit Backend(QObject *parent = nullptr);
     bool isProcessing() const;
 
+    Q_INVOKABLE QString getProcessedContent(const QString& filePath) {
+        return loadAndPreprocess(filePath);
+    }
+
 public slots:
     void processFiles(const QStringList &filePaths);
     void cancelProcessing();
@@ -26,6 +29,7 @@ signals:
     void comparisonFinished(double similarityScore, const QVariantList &matches);
     void processingChanged(bool processing);
     void errorOccurred(const QString &message);
+    void comparisonDataReady(const QVariantList& matchedSegments);
 
 private:
     struct FileContent {

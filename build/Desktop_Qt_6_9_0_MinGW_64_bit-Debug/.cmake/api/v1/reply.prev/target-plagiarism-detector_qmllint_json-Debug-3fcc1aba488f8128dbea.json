@@ -23,7 +23,7 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 32,
+				"line" : 35,
 				"parent" : 0
 			},
 			{
@@ -47,7 +47,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 1472,
+				"line" : 1499,
 				"parent" : 4
 			}
 		]
@@ -62,8 +62,8 @@
 	{
 		"name" : "QtInternalTargets/QmlLinter"
 	},
-	"id" : "plagiarism-detector_qmllint::@6890427a1f51a3e7e1df",
-	"name" : "plagiarism-detector_qmllint",
+	"id" : "plagiarism-detector_qmllint_json::@6890427a1f51a3e7e1df",
+	"name" : "plagiarism-detector_qmllint_json",
 	"paths" : 
 	{
 		"build" : ".",
@@ -91,13 +91,13 @@
 		{
 			"backtrace" : 5,
 			"isGenerated" : true,
-			"path" : "build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/plagiarism-detector_qmllint",
+			"path" : "build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/plagiarism-detector_qmllint_json",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/plagiarism-detector_qmllint.rule",
+			"path" : "build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/CMakeFiles/plagiarism-detector_qmllint_json.rule",
 			"sourceGroupIndex" : 1
 		}
 	],

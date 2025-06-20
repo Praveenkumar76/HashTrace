@@ -79,7 +79,7 @@
 			{
 				"command" : 3,
 				"file" : 1,
-				"line" : 28,
+				"line" : 31,
 				"parent" : 0
 			},
 			{
@@ -103,7 +103,7 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 47,
+				"line" : 50,
 				"parent" : 0
 			},
 			{
@@ -193,7 +193,7 @@
 			{
 				"command" : 11,
 				"file" : 1,
-				"line" : 32,
+				"line" : 35,
 				"parent" : 0
 			},
 			{
@@ -425,6 +425,47 @@
 				"parent" : 63
 			},
 			{
+				"file" : 1,
+				"line" : -1,
+				"parent" : 0
+			},
+			{
+				"command" : 19,
+				"file" : 23,
+				"line" : 1,
+				"parent" : 65
+			},
+			{
+				"command" : 18,
+				"file" : 0,
+				"line" : 816,
+				"parent" : 66
+			},
+			{
+				"command" : 17,
+				"file" : 0,
+				"line" : 738,
+				"parent" : 67
+			},
+			{
+				"command" : 16,
+				"file" : 0,
+				"line" : 738,
+				"parent" : 68
+			},
+			{
+				"command" : 15,
+				"file" : 10,
+				"line" : 4344,
+				"parent" : 69
+			},
+			{
+				"command" : 12,
+				"file" : 10,
+				"line" : 4119,
+				"parent" : 70
+			},
+			{
 				"command" : 13,
 				"file" : 10,
 				"line" : 3471,
@@ -434,47 +475,6 @@
 				"command" : 12,
 				"file" : 10,
 				"line" : 2870,
-				"parent" : 65
-			},
-			{
-				"file" : 1,
-				"line" : -1,
-				"parent" : 0
-			},
-			{
-				"command" : 19,
-				"file" : 23,
-				"line" : 1,
-				"parent" : 67
-			},
-			{
-				"command" : 18,
-				"file" : 0,
-				"line" : 816,
-				"parent" : 68
-			},
-			{
-				"command" : 17,
-				"file" : 0,
-				"line" : 738,
-				"parent" : 69
-			},
-			{
-				"command" : 16,
-				"file" : 0,
-				"line" : 738,
-				"parent" : 70
-			},
-			{
-				"command" : 15,
-				"file" : 10,
-				"line" : 4344,
-				"parent" : 71
-			},
-			{
-				"command" : 12,
-				"file" : 10,
-				"line" : 4119,
 				"parent" : 72
 			},
 			{
@@ -607,7 +607,7 @@
 				"command" : 29,
 				"file" : 0,
 				"line" : 810,
-				"parent" : 68
+				"parent" : 66
 			},
 			{
 				"command" : 22,
@@ -816,8 +816,8 @@
 				0,
 				1,
 				2,
+				3,
 				4,
-				6,
 				10,
 				12,
 				13,
@@ -1034,19 +1034,19 @@
 			"id" : "plagiarism-detector_copy_qml::@6890427a1f51a3e7e1df"
 		},
 		{
-			"backtrace" : 0,
-			"id" : "plagiarism-detector_autogen::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 66,
-			"id" : "plagiarism-detector_copy_res::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 73,
+			"backtrace" : 71,
 			"id" : "plagiarism-detector_qmlimportscan::@6890427a1f51a3e7e1df"
 		},
 		{
 			"id" : "plagiarism-detector_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 73,
+			"id" : "plagiarism-detector_copy_res::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "plagiarism-detector_autogen::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "plagiarism-detector::@6890427a1f51a3e7e1df",
@@ -1207,8 +1207,8 @@
 			[
 				1,
 				2,
+				3,
 				4,
-				6,
 				9,
 				10,
 				12,
@@ -1221,8 +1221,8 @@
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				3,
 				5,
+				6,
 				7
 			]
 		},
@@ -1289,25 +1289,25 @@
 		},
 		{
 			"backtrace" : 4,
-			"path" : "backend.h",
-			"sourceGroupIndex" : 2
-		},
-		{
-			"backtrace" : 4,
 			"compileGroupIndex" : 0,
 			"path" : "Preprocessor.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 4,
-			"path" : "Preprocessor.h",
+			"compileGroupIndex" : 0,
+			"path" : "Rabin_karp.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "backend.h",
 			"sourceGroupIndex" : 2
 		},
 		{
 			"backtrace" : 4,
-			"compileGroupIndex" : 0,
-			"path" : "Rabin_karp.cpp",
-			"sourceGroupIndex" : 1
+			"path" : "Preprocessor.h",
+			"sourceGroupIndex" : 2
 		},
 		{
 			"backtrace" : 4,

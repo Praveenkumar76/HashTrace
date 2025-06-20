@@ -48,9 +48,13 @@ template <> constexpr inline auto Backend::qt_create_metaobjectdata<qt_meta_tag_
         "processing",
         "errorOccurred",
         "message",
+        "comparisonDataReady",
+        "matchedSegments",
         "processFiles",
         "filePaths",
         "cancelProcessing",
+        "getProcessedContent",
+        "filePath",
         "isProcessing"
     };
 
@@ -67,16 +71,24 @@ template <> constexpr inline auto Backend::qt_create_metaobjectdata<qt_meta_tag_
         QtMocHelpers::SignalData<void(const QString &)>(8, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 9 },
         }}),
+        // Signal 'comparisonDataReady'
+        QtMocHelpers::SignalData<void(const QVariantList &)>(10, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 4, 11 },
+        }}),
         // Slot 'processFiles'
-        QtMocHelpers::SlotData<void(const QStringList &)>(10, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QStringList, 11 },
+        QtMocHelpers::SlotData<void(const QStringList &)>(12, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QStringList, 13 },
         }}),
         // Slot 'cancelProcessing'
-        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPublic, QMetaType::Void),
+        // Method 'getProcessedContent'
+        QtMocHelpers::MethodData<QString(const QString &)>(15, 2, QMC::AccessPublic, QMetaType::QString, {{
+            { QMetaType::QString, 16 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
         // property 'isProcessing'
-        QtMocHelpers::PropertyData<bool>(13, QMetaType::Bool, QMC::DefaultPropertyFlags, 1),
+        QtMocHelpers::PropertyData<bool>(17, QMetaType::Bool, QMC::DefaultPropertyFlags, 1),
     };
     QtMocHelpers::UintData qt_enums {
     };
@@ -101,8 +113,11 @@ void Backend::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 0: _t->comparisonFinished((*reinterpret_cast< std::add_pointer_t<double>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QVariantList>>(_a[2]))); break;
         case 1: _t->processingChanged((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
         case 2: _t->errorOccurred((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 3: _t->processFiles((*reinterpret_cast< std::add_pointer_t<QStringList>>(_a[1]))); break;
-        case 4: _t->cancelProcessing(); break;
+        case 3: _t->comparisonDataReady((*reinterpret_cast< std::add_pointer_t<QVariantList>>(_a[1]))); break;
+        case 4: _t->processFiles((*reinterpret_cast< std::add_pointer_t<QStringList>>(_a[1]))); break;
+        case 5: _t->cancelProcessing(); break;
+        case 6: { QString _r = _t->getProcessedContent((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])));
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
     }
@@ -112,6 +127,8 @@ void Backend::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         if (QtMocHelpers::indexOfMethod<void (Backend::*)(bool )>(_a, &Backend::processingChanged, 1))
             return;
         if (QtMocHelpers::indexOfMethod<void (Backend::*)(const QString & )>(_a, &Backend::errorOccurred, 2))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (Backend::*)(const QVariantList & )>(_a, &Backend::comparisonDataReady, 3))
             return;
     }
     if (_c == QMetaObject::ReadProperty) {
@@ -142,14 +159,14 @@ int Backend::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 7;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 7)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 5;
+        _id -= 7;
     }
     if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::BindableProperty
@@ -176,5 +193,11 @@ void Backend::processingChanged(bool _t1)
 void Backend::errorOccurred(const QString & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 2, nullptr, _t1);
+}
+
+// SIGNAL 3
+void Backend::comparisonDataReady(const QVariantList & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 3, nullptr, _t1);
 }
 QT_WARNING_POP
