@@ -3,6 +3,7 @@
 #include <QQmlApplicationEngine>
 #include <QIcon>
 #include "backend.h"
+#include "filereader.h"
 
 int main(int argc, char *argv[])
 
@@ -14,6 +15,7 @@ int main(int argc, char *argv[])
     app.setWindowIcon(QIcon(":/icons/app-icon.png"));
 
     qmlRegisterType<Backend>("com.company.backend", 1, 0, "Backend");
+    qmlRegisterType<FileReader>("com.company.filereader", 1, 0, "FileReader");
 
     QQmlApplicationEngine engine;
     engine.loadFromModule("plagiarism.detector", "Main");

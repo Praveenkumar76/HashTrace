@@ -22,16 +22,28 @@ Rectangle {
     border.width: 2
     color: darkMode ? "#424242" : "#FFFFFF"
 
+    FileReader {
+        id: fileReader
+        onErrorOccurred: function(message) {
+            hasError = true;
+            fileContent = message;
+            isLoading = false;
+        }
+    }
+
     onFilePathChanged: {
         if (filePath) {
             isLoading = true;
             hasError = false;
-            var content = backend.getProcessedContent(filePath);
-            if (content === "") {
+            fileContent = fileReader.readFile(filePath);
+            if (fileContent === "") {
                 hasError = true;
-                fileContent = "Error processing file";
             } else {
-                processedContent = content;
+                processedContent = backend.getProcessedContent(filePath);
+                if (processedContent === "") {
+                    hasError = true;
+                    fileContent = "Error processing file";
+                }
             }
             isLoading = false;
         } else {
@@ -94,6 +106,31 @@ Rectangle {
                     background: Rectangle {
                         color: "transparent"
                     }
+
+                    // Line numbers
+                    leftPadding: 30
+                    Component.onCompleted: {
+                        const lineNumbers = Qt.createQmlObject(`
+                            import QtQuick 2.0
+                            Rectangle {
+                                color: ${darkMode ? "'#444444'" : "'#EEEEEE'"}
+                                width: 25
+                                anchors {
+                                    left: parent.left
+                                    top: parent.top
+                                    bottom: parent.bottom
+                                }
+                                Text {
+                                    anchors.fill: parent
+                                    font: parent.parent.font
+                                    color: ${darkMode ? "'#AAAAAA'" : "'#666666'"}
+                                    text: {
+                                        let lines = parent.parent.text.split('\n').length
+                                        return Array.from({length: lines}, (_,i) => i+1).join('\n')
+                                    }
+                                }
+                            }`, originalText)
+                    }
                 }
             }
 
@@ -110,12 +147,37 @@ Rectangle {
                     background: Rectangle {
                         color: "transparent"
                     }
+
+                    // Line numbers
+                    leftPadding: 30
+                    Component.onCompleted: {
+                        const lineNumbers = Qt.createQmlObject(`
+                            import QtQuick 2.0
+                            Rectangle {
+                                color: ${darkMode ? "'#444444'" : "'#EEEEEE'"}
+                                width: 25
+                                anchors {
+                                    left: parent.left
+                                    top: parent.top
+                                    bottom: parent.bottom
+                                }
+                                Text {
+                                    anchors.fill: parent
+                                    font: parent.parent.font
+                                    color: ${darkMode ? "'#AAAAAA'" : "'#666666'"}
+                                    text: {
+                                        let lines = parent.parent.text.split('\n').length
+                                        return Array.from({length: lines}, (_,i) => i+1).join('\n')
+                                    }
+                                }
+                            }`, processedText)
+                    }
                 }
             }
         }
 
         Label {
-            text: filePath ? filePath.split("/").pop() : "No file selected"
+            text: filePath ? filePath.split("/").pop() + " | " + fileReader.getFileInfo(filePath) : "No file selected"
             elide: Text.ElideMiddle
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
@@ -134,36 +196,7 @@ Rectangle {
         ]
         onAccepted: {
             filePath = selectedFile;
-            loadFileContent();
         }
-    }
-
-    function loadFileContent() {
-        if (!filePath) return;
-
-        isLoading = true;
-        hasError = false;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", Qt.resolvedUrl(filePath));
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                isLoading = false;
-                if (xhr.status === 200) {
-                    fileContent = xhr.responseText;
-                    processedContent = backend.getProcessedContent(filePath);
-                    if (processedContent === "") {
-                        hasError = true;
-                        fileContent = "Error processing file";
-                    }
-                } else {
-                    hasError = true;
-                    fileContent = "Error loading file";
-                    processedContent = "";
-                }
-            }
-        };
-        xhr.send();
     }
 
     MouseArea {

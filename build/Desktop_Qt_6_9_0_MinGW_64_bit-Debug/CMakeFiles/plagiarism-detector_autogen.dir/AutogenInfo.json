@@ -913,7 +913,13 @@
 			"EWIEGA46WW/moc_Rabin_karp.cpp",
 			null
 		],
-		[ "D:/plagarism/backend.h", "MU", "EWIEGA46WW/moc_backend.cpp", null ]
+		[ "D:/plagarism/backend.h", "MU", "EWIEGA46WW/moc_backend.cpp", null ],
+		[
+			"D:/plagarism/filereader.h",
+			"MU",
+			"EWIEGA46WW/moc_filereader.cpp",
+			null
+		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
 	"INCLUDE_DIR" : "D:/plagarism/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/plagiarism-detector_autogen/include",
@@ -1018,6 +1024,7 @@
 		[ "D:/plagarism/Preprocessor.cpp", "MU", null ],
 		[ "D:/plagarism/Rabin_karp.cpp", "MU", null ],
 		[ "D:/plagarism/backend.cpp", "MU", null ],
+		[ "D:/plagarism/filereader.cpp", "MU", null ],
 		[ "D:/plagarism/main.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],

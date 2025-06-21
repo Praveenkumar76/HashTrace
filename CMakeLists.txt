@@ -23,9 +23,11 @@ set(SOURCE_FILES
     backend.cpp
     Preprocessor.cpp
     Rabin_karp.cpp
+    filereader.cpp
     backend.h
     Preprocessor.h
     Rabin_karp.h
+    filereader.h
 )
 
 qt_add_executable(plagiarism-detector
