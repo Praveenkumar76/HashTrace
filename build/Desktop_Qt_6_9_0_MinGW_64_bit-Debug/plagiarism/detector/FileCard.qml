@@ -4,6 +4,7 @@ import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import com.company.backend 1.0
+import com.company.filereader 1.0
 
 Rectangle {
     id: fileCard
@@ -35,6 +36,10 @@ Rectangle {
         if (filePath) {
             isLoading = true;
             hasError = false;
+            var pathToOpen = filePath;
+            if (!filePath.startsWith("file://") && !filePath.startsWith("/")) {
+                pathToOpen = "file:///" + filePath;
+            }
             fileContent = fileReader.readFile(filePath);
             if (fileContent === "") {
                 hasError = true;

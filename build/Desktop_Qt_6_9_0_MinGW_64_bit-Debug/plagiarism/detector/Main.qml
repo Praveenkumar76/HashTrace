@@ -431,7 +431,7 @@ Window {
                     onClicked: {
                         detailDialog.file1Path = file1;
                         detailDialog.file2Path = file2;
-                        detailDialog.score = score;
+                        detailDialog.similarityScore = model.score;
                         detailDialog.open();
                     }
                     background: Rectangle {
@@ -452,7 +452,7 @@ Window {
         id: detailDialog
         property string file1Path: ""
         property string file2Path: ""
-        property real score: 0
+        property real similarityScore: 0
 
         title: "Detailed Comparison"
         standardButtons: Dialog.Ok
@@ -476,13 +476,13 @@ Window {
             }
 
             Label {
-                text: file1Path.split('/').pop() + " and " + file2Path.split('/').pop()
+                text: detailDialog.file1Path.split('/').pop() + " and " + file2Path.split('/').pop()
                 color: darkMode ? "white" : "black"
                 font.pixelSize: 16
             }
 
             Label {
-                text: "Similarity: " + score.toFixed(2) + "%"
+                text: "Similarity: " + detailDialog.similarityScore.toFixed(2) + "%"
                 font.bold: true
                 font.pixelSize: 18
                 color: getScoreColor(score)
