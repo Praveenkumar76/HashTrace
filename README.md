@@ -1,21 +1,6 @@
-for vedio refernce it didnt work why ?
 # 🔍 HashTrace - Code Plagiarism Detector
 
 HashTrace is a modern and efficient plagiarism detection system built using **Qt (QML)** for the frontend and **C++** as the backend. It uses the **Rabin-Karp rolling hash algorithm** to identify code/text similarities between files and highlights them with an intuitive interface.
-
-![HashTrace Banner](https://github.com/user-attachments/assets/e93fc8c2-e652-491b-9d3a-afdc14dcdd3e) 
-
-
----
-
-## 📽 Demo
-
-▶️ **Watch the demo video here**:  
-[![HashTrace Demo](assets/HashTrace_Output.mp4)]
-
-> *(Replace `VIDEO_ID_HERE` with the actual YouTube video ID after uploading)*
-
----
 
 ## ✨ Features
 
