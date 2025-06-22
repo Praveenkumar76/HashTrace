@@ -9,6 +9,7 @@ import com.company.filereader 1.0
 Rectangle {
     id: fileCard
     property string filePath: ""
+    property string localFilePath: ""
     property string title: "Untitled"
     property string fileContent: ""
     property bool isLoading: false
@@ -27,7 +28,7 @@ Rectangle {
         id: fileReader
         onErrorOccurred: function(message) {
             hasError = true;
-            fileContent = message;
+            fileContent = "Error: " + message;
             isLoading = false;
         }
     }
@@ -36,24 +37,37 @@ Rectangle {
         if (filePath) {
             isLoading = true;
             hasError = false;
-            var pathToOpen = filePath;
-            if (!filePath.startsWith("file://") && !filePath.startsWith("/")) {
-                pathToOpen = "file:///" + filePath;
-            }
-            fileContent = fileReader.readFile(filePath);
-            if (fileContent === "") {
-                hasError = true;
+
+            // Store local file path for backend processing
+            if (filePath.startsWith("file:///")) {
+                localFilePath = filePath;
+            } else if (filePath.startsWith("/")) {
+                localFilePath = "file://" + filePath;
             } else {
-                processedContent = backend.getProcessedContent(filePath);
+                localFilePath = "file:///" + filePath;
+            }
+
+            // Read original content
+            fileContent = fileReader.readFile(filePath);
+
+            if (fileContent === "" || fileContent.startsWith("Error:")) {
+                hasError = true;
+                if (fileContent === "") {
+                    fileContent = "Error: Could not read file";
+                }
+            } else {
+                // Get processed content from backend
+                processedContent = backend.getProcessedContent(localFilePath);
                 if (processedContent === "") {
-                    hasError = true;
-                    fileContent = "Error processing file";
+                    console.warn("Warning: Could not get processed content for", filePath);
+                    processedContent = "Processing failed - using original content";
                 }
             }
             isLoading = false;
         } else {
             fileContent = "";
             processedContent = "";
+            localFilePath = "";
         }
     }
 
@@ -98,95 +112,139 @@ Rectangle {
             Layout.fillHeight: true
             currentIndex: tabBar.currentIndex
 
+            // Original content view
             ScrollView {
                 clip: true
-                TextArea {
-                    id: originalText
-                    text: fileContent
-                    readOnly: true
-                    wrapMode: TextEdit.Wrap
-                    font.family: "Courier New"
-                    font.pixelSize: 12
-                    color: darkMode ? "#E0E0E0" : "#333333"
-                    background: Rectangle {
-                        color: "transparent"
+
+                Rectangle {
+                    width: Math.max(originalText.implicitWidth + 35, parent.width)
+                    height: Math.max(originalText.implicitHeight, parent.height)
+                    color: "transparent"
+
+                    // Line numbers background
+                    Rectangle {
+                        id: lineNumberBg
+                        width: 30
+                        height: parent.height
+                        color: darkMode ? "#444444" : "#EEEEEE"
+                        border.color: darkMode ? "#555555" : "#DDDDDD"
+                        border.width: 1
+
+                        Text {
+                            anchors.fill: parent
+                            anchors.margins: 5
+                            font.family: "Courier New"
+                            font.pixelSize: 12
+                            color: darkMode ? "#AAAAAA" : "#666666"
+                            verticalAlignment: Text.AlignTop
+                            text: {
+                                if (!originalText.text) return "1";
+                                let lines = originalText.text.split('\n').length;
+                                let numbers = [];
+                                for (let i = 1; i <= lines; i++) {
+                                    numbers.push(i);
+                                }
+                                return numbers.join('\n');
+                            }
+                        }
                     }
 
-                    // Line numbers
-                    leftPadding: 30
-                    Component.onCompleted: {
-                        const lineNumbers = Qt.createQmlObject(`
-                            import QtQuick 2.0
-                            Rectangle {
-                                color: ${darkMode ? "'#444444'" : "'#EEEEEE'"}
-                                width: 25
-                                anchors {
-                                    left: parent.left
-                                    top: parent.top
-                                    bottom: parent.bottom
-                                }
-                                Text {
-                                    anchors.fill: parent
-                                    font: parent.parent.font
-                                    color: ${darkMode ? "'#AAAAAA'" : "'#666666'"}
-                                    text: {
-                                        let lines = parent.parent.text.split('\n').length
-                                        return Array.from({length: lines}, (_,i) => i+1).join('\n')
-                                    }
-                                }
-                            }`, originalText)
+                    TextArea {
+                        id: originalText
+                        anchors.left: lineNumberBg.right
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.leftMargin: 5
+                        text: fileContent
+                        readOnly: true
+                        wrapMode: TextEdit.Wrap
+                        font.family: "Courier New"
+                        font.pixelSize: 12
+                        color: darkMode ? "#E0E0E0" : "#333333"
+                        background: Rectangle {
+                            color: "transparent"
+                        }
+                        selectByMouse: true
                     }
                 }
             }
 
+            // Processed content view
             ScrollView {
                 clip: true
-                TextArea {
-                    id: processedText
-                    text: processedContent
-                    readOnly: true
-                    wrapMode: TextEdit.Wrap
-                    font.family: "Courier New"
-                    font.pixelSize: 12
-                    color: darkMode ? "#E0E0E0" : "#333333"
-                    background: Rectangle {
-                        color: "transparent"
+
+                Rectangle {
+                    width: Math.max(processedText.implicitWidth + 35, parent.width)
+                    height: Math.max(processedText.implicitHeight, parent.height)
+                    color: "transparent"
+
+                    // Line numbers background
+                    Rectangle {
+                        id: processedLineNumberBg
+                        width: 30
+                        height: parent.height
+                        color: darkMode ? "#444444" : "#EEEEEE"
+                        border.color: darkMode ? "#555555" : "#DDDDDD"
+                        border.width: 1
+
+                        Text {
+                            anchors.fill: parent
+                            anchors.margins: 5
+                            font.family: "Courier New"
+                            font.pixelSize: 12
+                            color: darkMode ? "#AAAAAA" : "#666666"
+                            verticalAlignment: Text.AlignTop
+                            text: {
+                                if (!processedText.text) return "1";
+                                let lines = processedText.text.split('\n').length;
+                                let numbers = [];
+                                for (let i = 1; i <= lines; i++) {
+                                    numbers.push(i);
+                                }
+                                return numbers.join('\n');
+                            }
+                        }
                     }
 
-                    // Line numbers
-                    leftPadding: 30
-                    Component.onCompleted: {
-                        const lineNumbers = Qt.createQmlObject(`
-                            import QtQuick 2.0
-                            Rectangle {
-                                color: ${darkMode ? "'#444444'" : "'#EEEEEE'"}
-                                width: 25
-                                anchors {
-                                    left: parent.left
-                                    top: parent.top
-                                    bottom: parent.bottom
-                                }
-                                Text {
-                                    anchors.fill: parent
-                                    font: parent.parent.font
-                                    color: ${darkMode ? "'#AAAAAA'" : "'#666666'"}
-                                    text: {
-                                        let lines = parent.parent.text.split('\n').length
-                                        return Array.from({length: lines}, (_,i) => i+1).join('\n')
-                                    }
-                                }
-                            }`, processedText)
+                    TextArea {
+                        id: processedText
+                        anchors.left: processedLineNumberBg.right
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.leftMargin: 5
+                        text: processedContent
+                        readOnly: true
+                        wrapMode: TextEdit.Wrap
+                        font.family: "Courier New"
+                        font.pixelSize: 12
+                        color: darkMode ? "#E0E0E0" : "#333333"
+                        background: Rectangle {
+                            color: "transparent"
+                        }
+                        selectByMouse: true
                     }
                 }
             }
         }
 
         Label {
-            text: filePath ? filePath.split("/").pop() + " | " + fileReader.getFileInfo(filePath) : "No file selected"
+            text: {
+                if (filePath) {
+                            let fileName = filePath.split("/").pop();
+                            let info = fileReader.getFileInfo(filePath);
+                            return fileName + (info ? " | " + info : "");
+                        }
+                        return "Click to select file";  // This is your existing hint
+                    }
+                    // Make the hint more visible when no file is selected
+                    font.italic: !filePath
+                    color: !filePath ? (darkMode ? "#64B5F6" : "#1976D2") :
+                          (darkMode ? "#BDBDBD" : "#757575")
             elide: Text.ElideMiddle
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
-            color: darkMode ? "#BDBDBD" : "#757575"
             font.pixelSize: 12
         }
     }
@@ -206,8 +264,14 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
+        hoverEnabled: true
         onClicked: internalFileDialog.open()
         cursorShape: Qt.PointingHandCursor
+
+        // Visual feedback on hover
+        onEntered: parent.border.color = parent.darkMode ? "#64B5F6" : "#1976D2"
+        onExited: parent.border.color = parent.hasError ? "red" :
+                 (parent.fileContent ? "#4CAF50" : "#9E9E9E")
     }
 
     BusyIndicator {
@@ -216,6 +280,7 @@ Rectangle {
         width: 48
         height: 48
         visible: running
+        z: 10
     }
 
     states: [

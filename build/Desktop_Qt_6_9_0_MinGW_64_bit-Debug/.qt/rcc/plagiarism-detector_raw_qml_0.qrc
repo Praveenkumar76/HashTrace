@@ -8,6 +8,9 @@
     <file alias="icons/menu.svg">D:/plagarism/icons/menu.svg</file>
     <file alias="icons/settings.svg">D:/plagarism/icons/settings.svg</file>
     <file alias="icons/theme.svg">D:/plagarism/icons/theme.svg</file>
+    <file alias="icons/sun.png">D:/plagarism/icons/sun.png</file>
+    <file alias="icons/moon.svg">D:/plagarism/icons/moon.svg</file>
+    <file alias="icons/moon.png">D:/plagarism/icons/moon.png</file>
   </qresource>
 </RCC>
 

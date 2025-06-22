@@ -336,7 +336,7 @@ build .rcc/qmlcache/plagiarism-detector_FileCard_qml.cpp .rcc/qmlcache/plagiaris
 #############################################
 # Custom command for .qt\rcc\qrc_plagiarism-detector_raw_qml_0.cpp
 
-build .qt/rcc/qrc_plagiarism-detector_raw_qml_0.cpp | ${cmake_ninja_workdir}.qt/rcc/qrc_plagiarism-detector_raw_qml_0.cpp: CUSTOM_COMMAND D$:/plagarism/Main.qml D$:/plagarism/FileCard.qml D$:/plagarism/icons/add_file.png D$:/plagarism/icons/compare.svg D$:/plagarism/icons/history.png D$:/plagarism/icons/menu.svg D$:/plagarism/icons/settings.svg D$:/plagarism/icons/theme.svg .qt/rcc/plagiarism-detector_raw_qml_0.qrc C$:/Qt/6.9.0/mingw_64/bin/rcc.exe || plagiarism-detector_autogen plagiarism-detector_autogen_timestamp_deps plagiarism-detector_copy_qml plagiarism-detector_copy_res plagiarism-detector_qmlimportscan
+build .qt/rcc/qrc_plagiarism-detector_raw_qml_0.cpp | ${cmake_ninja_workdir}.qt/rcc/qrc_plagiarism-detector_raw_qml_0.cpp: CUSTOM_COMMAND D$:/plagarism/Main.qml D$:/plagarism/FileCard.qml D$:/plagarism/icons/add_file.png D$:/plagarism/icons/compare.svg D$:/plagarism/icons/history.png D$:/plagarism/icons/menu.svg D$:/plagarism/icons/settings.svg D$:/plagarism/icons/theme.svg D$:/plagarism/icons/sun.png D$:/plagarism/icons/moon.svg D$:/plagarism/icons/moon.png .qt/rcc/plagiarism-detector_raw_qml_0.qrc C$:/Qt/6.9.0/mingw_64/bin/rcc.exe || plagiarism-detector_autogen plagiarism-detector_autogen_timestamp_deps plagiarism-detector_copy_qml plagiarism-detector_copy_res plagiarism-detector_qmlimportscan
   COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D D:\plagarism\build\Desktop_Qt_6_9_0_MinGW_64_bit-Debug && C:\Qt\6.9.0\mingw_64\bin\rcc.exe --output D:/plagarism/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/.qt/rcc/qrc_plagiarism-detector_raw_qml_0.cpp --name plagiarism-detector_raw_qml_0 D:/plagarism/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/.qt/rcc/plagiarism-detector_raw_qml_0.qrc --no-zstd"
   DESC = Running rcc for resource plagiarism-detector_raw_qml_0
   restat = 1
@@ -413,7 +413,7 @@ build CMakeFiles/plagiarism-detector_copy_res | ${cmake_ninja_workdir}CMakeFiles
 #############################################
 # Custom command for .qt\plagiarism-detector_res.txt
 
-build .qt/plagiarism-detector_res.txt | ${cmake_ninja_workdir}.qt/plagiarism-detector_res.txt: CUSTOM_COMMAND C$:/Qt/6.9.0/mingw_64/lib/cmake/Qt6Qml/Qt6QmlCopyFiles.cmake D$:/plagarism/icons/add_file.png D$:/plagarism/icons/compare.svg D$:/plagarism/icons/history.png D$:/plagarism/icons/menu.svg D$:/plagarism/icons/settings.svg D$:/plagarism/icons/theme.svg
+build .qt/plagiarism-detector_res.txt | ${cmake_ninja_workdir}.qt/plagiarism-detector_res.txt: CUSTOM_COMMAND C$:/Qt/6.9.0/mingw_64/lib/cmake/Qt6Qml/Qt6QmlCopyFiles.cmake D$:/plagarism/icons/add_file.png D$:/plagarism/icons/compare.svg D$:/plagarism/icons/history.png D$:/plagarism/icons/menu.svg D$:/plagarism/icons/settings.svg D$:/plagarism/icons/theme.svg D$:/plagarism/icons/sun.png D$:/plagarism/icons/moon.svg D$:/plagarism/icons/moon.png
   COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D D:\plagarism\build\Desktop_Qt_6_9_0_MinGW_64_bit-Debug && C:\Qt\Tools\CMake_64\bin\cmake.exe -DFILES_INFO_PATH=D:/plagarism/build/Desktop_Qt_6_9_0_MinGW_64_bit-Debug/.qt/plagiarism-detector_res.cmake -P C:/Qt/6.9.0/mingw_64/lib/cmake/Qt6Qml/Qt6QmlCopyFiles.cmake"
   DESC = Copying plagiarism-detector qml resources into build dir
   restat = 1

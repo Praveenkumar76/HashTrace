@@ -3,6 +3,7 @@ import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import com.company.backend 1.0
+import com.company.filereader 1.0
 
 Window {
     id: window
@@ -12,20 +13,8 @@ Window {
     minimumHeight: 600
     visible: true
     title: "Plagiarism Detector"
-    color: darkMode ? "#2d2d2d" : "#f5f5f5"
 
     property bool darkMode: false
-
-    // Busy indicator for processing
-    BusyIndicator {
-        id: busyIndicator
-        running: false
-        anchors.centerIn: parent
-        z: 100
-        width: 64
-        height: 64
-        visible: running
-    }
 
     // Backend connection
     Backend {
@@ -37,7 +26,8 @@ Window {
             }
             overallScore.text = `Overall Similarity: ${similarityScore.toFixed(2)}%`;
             overallScore.color = getScoreColor(similarityScore);
-            busyIndicator.running = false;
+
+            viewTabs.currentIndex = 1;
 
             // Show warning if high similarity detected
             if (similarityScore > 70) {
@@ -45,18 +35,20 @@ Window {
                 warningDialog.open();
             }
         }
-        onProcessingChanged: busyIndicator.running = processing
         onErrorOccurred: function(message) {
             errorDialog.text = message;
             errorDialog.open();
-            busyIndicator.running = false;
         }
     }
 
+    FileReader {
+        id: fileReader
+    }
+
     function getScoreColor(score) {
-        if (score > 70) return "red";
-        if (score > 40) return "orange";
-        return "green";
+        if (score > 70) return "#FF5252";
+        if (score > 40) return "#FF9800";
+        return "#4CAF50";
     }
 
     // Dialogs
@@ -86,12 +78,6 @@ Window {
             anchors.rightMargin: 15
             spacing: 20
 
-            ToolButton {
-                icon.source: "icons/menu.svg"
-                icon.color: darkMode ? "white" : "black"
-                onClicked: drawer.open()
-            }
-
             Label {
                 text: window.title
                 font.pixelSize: 22
@@ -100,10 +86,17 @@ Window {
                 Layout.fillWidth: true
             }
 
-            ToolButton {
-                icon.source: "icons/theme.svg"
-                icon.color: darkMode ? "white" : "black"
+            Button {
+                text: darkMode ? "Light Mode" : "Dark Mode"
                 onClicked: window.darkMode = !window.darkMode
+                background: Rectangle {
+                    radius: 5
+                    color: parent.down ? (darkMode ? "#555555" : "#e0e0e0") :
+                          (parent.hovered ? (darkMode ? "#444444" : "#f0f0f0") :
+                                           (darkMode ? "#333333" : "#ffffff"))
+                    border.color: darkMode ? "#666666" : "#cccccc"
+                    border.width: 1
+                }
             }
         }
 
@@ -115,89 +108,27 @@ Window {
         }
     }
 
-    // Navigation drawer
-    Drawer {
-        id: drawer
-        width: Math.min(window.width * 0.33, 300)
-        height: window.height
-        edge: Qt.LeftEdge
-        dim: true
-        background: Rectangle {
-            color: darkMode ? "#333333" : "#ffffff"
-        }
-
-        ColumnLayout {
-            width: parent.width
-            spacing: 0
-
-            ItemDelegate {
-                text: "Compare Files"
-                icon.source: "icons/compare.svg"
-                icon.color: darkMode ? "white" : "black"
-                Layout.fillWidth: true
-                onClicked: {
-                    stackView.replace(comparePage);
-                    drawer.close();
-                }
-                background: Rectangle {
-                    color: parent.hovered ? (darkMode ? "#444444" : "#f0f0f0") : "transparent"
-                }
-            }
-
-            ItemDelegate {
-                text: "History"
-                icon.source: "icons/history.png"
-                icon.color: darkMode ? "white" : "black"
-                Layout.fillWidth: true
-                onClicked: {
-                    stackView.replace(historyPage);
-                    drawer.close();
-                }
-                background: Rectangle {
-                    color: parent.hovered ? (darkMode ? "#444444" : "#f0f0f0") : "transparent"
-                }
-            }
-
-            ItemDelegate {
-                text: "Settings"
-                icon.source: "icons/settings.svg"
-                icon.color: darkMode ? "white" : "black"
-                Layout.fillWidth: true
-                onClicked: {
-                    stackView.replace(settingsPage);
-                    drawer.close();
-                }
-                background: Rectangle {
-                    color: parent.hovered ? (darkMode ? "#444444" : "#f0f0f0") : "transparent"
-                }
-            }
-        }
-    }
-
-    // Main content area
-    StackView {
-        id: stackView
+    // Main content
+    Rectangle {
         anchors {
             top: toolbar.bottom
             left: parent.left
             right: parent.right
             bottom: parent.bottom
         }
-        initialItem: comparePage
-    }
+        color: darkMode ? "#2d2d2d" : "#f5f5f5"
 
-    // Pages
-    Component {
-        id: comparePage
         ColumnLayout {
-            spacing: 20
+            anchors.fill: parent
             anchors.margins: 20
+            spacing: 20
 
             TabBar {
                 id: viewTabs
                 Layout.fillWidth: true
                 background: Rectangle {
                     color: darkMode ? "#333333" : "#ffffff"
+                    radius: 5
                 }
 
                 TabButton {
@@ -205,6 +136,7 @@ Window {
                     background: Rectangle {
                         color: darkMode ? (viewTabs.currentIndex === 0 ? "#444444" : "#333333") :
                                          (viewTabs.currentIndex === 0 ? "#f0f0f0" : "#ffffff")
+                        radius: 5
                     }
                 }
                 TabButton {
@@ -212,40 +144,92 @@ Window {
                     background: Rectangle {
                         color: darkMode ? (viewTabs.currentIndex === 1 ? "#444444" : "#333333") :
                                          (viewTabs.currentIndex === 1 ? "#f0f0f0" : "#ffffff")
+                        radius: 5
                     }
                 }
             }
 
-            SwipeView {
-                id: swipeView
+            StackLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 currentIndex: viewTabs.currentIndex
-                interactive: false
 
+                // File Comparison Tab
                 Item {
-                    RowLayout {
+                    ColumnLayout {
                         anchors.fill: parent
                         spacing: 20
 
-                        FileCard {
-                            id: fileCard1
-                            title: "File 1"
+                        RowLayout {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
-                            darkMode: window.darkMode
+                            spacing: 20
+
+                            FileCard {
+                                id: fileCard1
+                                title: "File 1"
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                darkMode: window.darkMode
+                            }
+
+                            FileCard {
+                                id: fileCard2
+                                title: "File 2"
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                darkMode: window.darkMode
+                            }
                         }
 
-                        FileCard {
-                            id: fileCard2
-                            title: "File 2"
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            darkMode: window.darkMode
+                        RowLayout {
+                            Layout.alignment: Qt.AlignHCenter
+                            spacing: 10
+
+                            Button {
+                                text: "Check for Plagiarism"
+                                enabled: fileCard1.localFilePath && fileCard2.localFilePath && !backend.processing
+                                onClicked: {
+                                    if (fileCard1.localFilePath && fileCard2.localFilePath) {
+                                        var files = [fileCard1.localFilePath, fileCard2.localFilePath];
+                                        backend.processFiles(files);
+                                    } else {
+                                        errorDialog.text = "Please select both files first";
+                                        errorDialog.open();
+                                    }
+                                }
+                                background: Rectangle {
+                                    radius: 5
+                                    color: parent.down ? (darkMode ? "#555555" : "#e0e0e0") :
+                                          (parent.hovered ? (darkMode ? "#444444" : "#f0f0f0") :
+                                                           (darkMode ? "#333333" : "#ffffff"))
+                                    border.color: darkMode ? "#666666" : "#cccccc"
+                                    border.width: 1
+                                }
+                            }
+
+                            Button {
+                                text: "Cancel"
+                                visible: backend.processing
+                                onClicked: backend.cancelProcessing()
+                                background: Rectangle {
+                                    radius: 5
+                                    color: "#FF5252"
+                                    border.color: "#D32F2F"
+                                    border.width: 1
+                                }
+                            }
+                        }
+
+                        BusyIndicator {
+                            running: backend.processing
+                            Layout.alignment: Qt.AlignHCenter
+                            visible: running
                         }
                     }
                 }
 
+                // Results Tab
                 Item {
                     ColumnLayout {
                         anchors.fill: parent
@@ -274,88 +258,16 @@ Window {
                         }
 
                         Label {
-                            text: "No comparison results yet"
+                            text: "No comparison results yet.\nSelect two files and click 'Check for Plagiarism' to begin."
                             visible: resultView.count === 0
                             font.pixelSize: 16
                             color: darkMode ? "#aaaaaa" : "#666666"
                             Layout.alignment: Qt.AlignHCenter
                             Layout.fillHeight: true
+                            horizontalAlignment: Text.AlignHCenter
                         }
                     }
                 }
-            }
-
-            Button {
-                text: "Select Files"
-                icon.source: "icons/add_file.png"
-                Layout.alignment: Qt.AlignHCenter
-                onClicked: fileDialog.open()
-                background: Rectangle {
-                    radius: 5
-                    color: parent.down ? (darkMode ? "#555555" : "#e0e0e0") :
-                          (parent.hovered ? (darkMode ? "#444444" : "#f0f0f0") :
-                                           (darkMode ? "#333333" : "#ffffff"))
-                    border.color: darkMode ? "#666666" : "#cccccc"
-                    border.width: 1
-                }
-            }
-        }
-    }
-
-    Component {
-        id: historyPage
-        ScrollView {
-            Label {
-                text: "Comparison history will appear here"
-                anchors.centerIn: parent
-                color: darkMode ? "white" : "black"
-            }
-            background: Rectangle {
-                color: darkMode ? "#2d2d2d" : "#f5f5f5"
-            }
-        }
-    }
-
-    Component {
-        id: settingsPage
-        ScrollView {
-            ColumnLayout {
-                width: parent.width - 40
-                anchors.centerIn: parent
-                spacing: 20
-
-                Label {
-                    text: "Settings"
-                    font.pixelSize: 24
-                    Layout.alignment: Qt.AlignHCenter
-                    color: darkMode ? "white" : "black"
-                }
-
-                Switch {
-                    text: "Dark Mode"
-                    checked: window.darkMode
-                    onCheckedChanged: window.darkMode = checked
-                    Layout.alignment: Qt.AlignHCenter
-                }
-            }
-            background: Rectangle {
-                color: darkMode ? "#2d2d2d" : "#f5f5f5"
-            }
-        }
-    }
-
-    FileDialog {
-        id: fileDialog
-        title: "Select files to compare"
-        fileMode: FileDialog.OpenFiles
-        nameFilters: ["Source files (*.cpp *.h *.py *.java *.js)", "Text files (*.txt)", "All files (*)"]
-        onAccepted: {
-            var urls = selectedFiles;
-            if (urls.length >= 2) {
-                fileCard1.filePath = urls[0];
-                fileCard2.filePath = urls[1];
-                backend.processFiles(urls);
-                busyIndicator.running = true;
             }
         }
     }
@@ -366,7 +278,7 @@ Window {
         Rectangle {
             width: ListView.view.width - 20
             height: column.implicitHeight + 20
-            radius: 5
+            radius: 8
             color: darkMode ? (index % 2 === 0 ? "#333333" : "#3a3a3a") :
                               (index % 2 === 0 ? "#ffffff" : "#f9f9f9")
             border.color: darkMode ? "#444444" : "#e0e0e0"
@@ -376,15 +288,15 @@ Window {
             ColumnLayout {
                 id: column
                 anchors.fill: parent
-                anchors.margins: 10
-                spacing: 5
+                anchors.margins: 15
+                spacing: 10
 
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 10
 
                     Label {
-                        text: file1.split('/').pop()
+                        text: model.file1 ? model.file1.split('/').pop() : "File 1"
                         elide: Text.ElideMiddle
                         font.bold: true
                         color: darkMode ? "white" : "black"
@@ -394,10 +306,11 @@ Window {
                     Label {
                         text: " ↔ "
                         color: darkMode ? "white" : "black"
+                        font.pixelSize: 16
                     }
 
                     Label {
-                        text: file2.split('/').pop()
+                        text: model.file2 ? model.file2.split('/').pop() : "File 2"
                         elide: Text.ElideMiddle
                         font.bold: true
                         color: darkMode ? "white" : "black"
@@ -406,7 +319,7 @@ Window {
                 }
 
                 ProgressBar {
-                    value: score / 100
+                    value: model.score / 100
                     Layout.fillWidth: true
                     background: Rectangle {
                         radius: 3
@@ -414,14 +327,19 @@ Window {
                     }
                     contentItem: Rectangle {
                         radius: 3
-                        color: getScoreColor(score)
+                        color: getScoreColor(model.score)
                     }
                 }
 
                 Label {
-                    text: "Similarity Score: " + score.toFixed(2) + "%"
+                    text: {
+                        let score = model.score || 0;
+                        if (score > 70) return "High Plagiarism Risk (" + score.toFixed(2) + "%)";
+                        if (score > 40) return "Moderate Similarity (" + score.toFixed(2) + "%)";
+                        return "Low Similarity (" + score.toFixed(2) + "%)";
+                    }
                     font.bold: true
-                    color: getScoreColor(score)
+                    color: getScoreColor(model.score || 0)
                     Layout.alignment: Qt.AlignHCenter
                 }
 
@@ -429,11 +347,12 @@ Window {
                     text: "View Details"
                     Layout.alignment: Qt.AlignHCenter
                     onClicked: {
-                        detailDialog.file1Path = file1;
-                        detailDialog.file2Path = file2;
-                        detailDialog.similarityScore = model.score;
+                        detailDialog.file1Path = model.file1 || "";
+                        detailDialog.file2Path = model.file2 || "";
+                        detailDialog.similarityScore = model.score || 0;
                         detailDialog.open();
                     }
+
                     background: Rectangle {
                         radius: 5
                         color: parent.down ? (darkMode ? "#555555" : "#e0e0e0") :
@@ -456,17 +375,19 @@ Window {
 
         title: "Detailed Comparison"
         standardButtons: Dialog.Ok
-        width: Math.min(window.width * 0.8, 800)
-        height: Math.min(window.height * 0.8, 600)
+        width: Math.min(window.width * 0.9, 1000)
+        height: Math.min(window.height * 0.9, 700)
         modal: true
 
-        background: Rectangle {
-            color: darkMode ? "#333333" : "#ffffff"
-            radius: 5
+        onOpened: {
+            if (file1Path && file2Path) {
+                file1Text.text = fileReader.readFile(file1Path);
+                file2Text.text = fileReader.readFile(file2Path);
+            }
         }
 
         ColumnLayout {
-            width: parent.width
+            anchors.fill: parent
             spacing: 15
 
             Label {
@@ -476,24 +397,84 @@ Window {
             }
 
             Label {
-                text: detailDialog.file1Path.split('/').pop() + " and " + file2Path.split('/').pop()
+                text: (detailDialog.file1Path.split('/').pop() || "File 1") + " and " +
+                      (detailDialog.file2Path.split('/').pop() || "File 2")
                 color: darkMode ? "white" : "black"
-                font.pixelSize: 16
+                font.pixelSize: 14
             }
 
             Label {
                 text: "Similarity: " + detailDialog.similarityScore.toFixed(2) + "%"
                 font.bold: true
                 font.pixelSize: 18
-                color: getScoreColor(score)
+                color: getScoreColor(detailDialog.similarityScore)
                 Layout.alignment: Qt.AlignHCenter
             }
 
-            // Add more detailed comparison info here as needed
-            ScrollView {
+            RowLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                visible: false // Change to true when adding actual comparison content
+                spacing: 20
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    spacing: 5
+
+                    Label {
+                        text: "File 1: " + (detailDialog.file1Path.split('/').pop() || "Unknown")
+                        font.bold: true
+                        color: darkMode ? "white" : "black"
+                    }
+
+                    ScrollView {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        TextArea {
+                            id: file1Text
+                            readOnly: true
+                            wrapMode: TextEdit.Wrap
+                            font.family: "Courier New"
+                            font.pixelSize: 11
+                            selectByMouse: true
+                            background: Rectangle {
+                                color: darkMode ? "#333333" : "#ffffff"
+                                border.color: darkMode ? "#555555" : "#cccccc"
+                                border.width: 1
+                            }
+                        }
+                    }
+                }
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    spacing: 5
+
+                    Label {
+                        text: "File 2: " + (detailDialog.file2Path.split('/').pop() || "Unknown")
+                        font.bold: true
+                        color: darkMode ? "white" : "black"
+                    }
+
+                    ScrollView {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        TextArea {
+                            id: file2Text
+                            readOnly: true
+                            wrapMode: TextEdit.Wrap
+                            font.family: "Courier New"
+                            font.pixelSize: 11
+                            selectByMouse: true
+                            background: Rectangle {
+                                color: darkMode ? "#333333" : "#ffffff"
+                                border.color: darkMode ? "#555555" : "#cccccc"
+                                border.width: 1
+                            }
+                        }
+                    }
+                }
             }
         }
     }

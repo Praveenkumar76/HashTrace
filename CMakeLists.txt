@@ -47,6 +47,9 @@ qt_add_qml_module(plagiarism-detector
         icons/menu.svg
         icons/settings.svg
         icons/theme.svg
+        icons/sun.png
+        icons/moon.svg
+        icons/moon.png
 )
 
 target_link_libraries(plagiarism-detector
