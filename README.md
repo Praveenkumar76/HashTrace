@@ -2,6 +2,14 @@
 
 HashTrace is a modern and efficient plagiarism detection system built using **Qt (QML)** for the frontend and **C++** as the backend. It uses the **Rabin-Karp rolling hash algorithm** to identify code/text similarities between files and highlights them with an intuitive interface.
 
+## 📽 Demo
+
+▶️ **Watch the demo video here**:  
+
+https://github.com/user-attachments/assets/d4d5cb30-7c49-458d-ae2b-90af6a90d725
+
+
+
 ## ✨ Features
 
 - 📁 Drag-and-drop support for adding files
