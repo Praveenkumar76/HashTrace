@@ -1,4 +1,4 @@
-# 🔍 HashTrace - Code Plagiarism Detector
+#  HashTrace - Code Plagiarism Detector
 
 HashTrace is a modern and efficient plagiarism detection system built using **Qt (QML)** for the frontend and **C++** as the backend. It uses the **Rabin-Karp rolling hash algorithm** to identify code/text similarities between files and highlights them with an intuitive interface.
 
@@ -10,7 +10,7 @@ https://github.com/user-attachments/assets/d4d5cb30-7c49-458d-ae2b-90af6a90d725
 
 
 
-## ✨ Features
+##  Features
 
 - 📁 Drag-and-drop support for adding files
 - 🧠 Rabin-Karp algorithm for efficient hash-based comparison
@@ -21,7 +21,7 @@ https://github.com/user-attachments/assets/d4d5cb30-7c49-458d-ae2b-90af6a90d725
 
 ---
 
-## ⚙️ How It Works
+## ⚙ How It Works
 
 1. **Preprocessing**: Cleans the source code (removes comments, blank lines, reserved words).
 2. **Hashing**: Uses Rabin-Karp rolling hash to generate fingerprints.
@@ -30,7 +30,7 @@ https://github.com/user-attachments/assets/d4d5cb30-7c49-458d-ae2b-90af6a90d725
 
 ---
 
-## 🧰 Tech Stack
+##  Tech Stack
 
 - **Frontend**: Qt 6, QML
 - **Backend**: C++17
@@ -39,7 +39,7 @@ https://github.com/user-attachments/assets/d4d5cb30-7c49-458d-ae2b-90af6a90d725
 
 ---
 
-## 🖥️ Installation
+##  Installation
 
 ```bash
 # Clone the repository
@@ -52,7 +52,7 @@ cmake ..
 make
 ```
 
-## 🚀 Run the App
+##  Run the App
 ```bash
 ./HashTrace
 ```
@@ -60,6 +60,6 @@ make
 ## 📄 License
 - This project is licensed under the MIT License.
 
-## 🙋‍♂️ Author
+##  Author
 Praveen Kumar
 praveenrajagopal45@gmail.com
